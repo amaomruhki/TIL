@@ -29,6 +29,7 @@ function addSumToMiddle(array) {
 console.log(addSumToMiddle([1, 2, 3, 4, 5]));
 ```
 
+↓別の配列にいれる別バージョン（もとの配列をreturnしないと正解扱いにならないけどこっちがすっきりする）
 ```JavaScript
 function addSumToMiddle(array) {
 
