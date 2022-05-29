@@ -9,6 +9,26 @@
 - この関数では返り値は返しても返さなくても構いません
 - 要素の挿入は引数の配列自体に対して行ってください
 
+↓最大値が可変しないようにもとの配列をtmp_arrayへコピーして i < tmp_array.lengthにする
+　挿入するインデックス番号を簡単にしたいので配列の中身をいったん全部消して挿入しなおしてみた・・・
+```javascript
+function addSumToMiddle(array) {
+
+  let tmp_array = array.slice();
+  array.splice(0);
+  
+  for(let i = 0; i < tmp_array.length; i++ ){
+   array[array.length] = tmp_array[i];
+
+   if(tmp_array[i+1] != undefined){ 
+       array[array.length] = tmp_array[i]+tmp_array[i+1];
+   }
+  }
+}
+
+console.log(addSumToMiddle([1, 2, 3, 4, 5]));
+```
+
 ```JavaScript
 function addSumToMiddle(array) {
 
