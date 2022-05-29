@@ -9,7 +9,7 @@
 - この関数では返り値は返しても返さなくても構いません
 - 要素の挿入は引数の配列自体に対して行ってください
 
-↓最大値が可変しないようにもとの配列をtmp_arrayへコピーして i < tmp_array.lengthにする
+↓最大値が可変しないようにもとの配列をtmp_arrayへコピーして i < tmp_array.lengthにする  
 　挿入するインデックス番号を簡単にしたいので配列の中身をいったん全部消して挿入しなおしてみた・・・
 ```javascript
 function addSumToMiddle(array) {
