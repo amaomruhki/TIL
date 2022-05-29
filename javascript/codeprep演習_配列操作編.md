@@ -10,7 +10,7 @@
 - 要素の挿入は引数の配列自体に対して行ってください
 
 ```JavaScript
-function yoshio_new(array) {
+function addSumToMiddle(array) {
 
   let tmp_array = [];
   
@@ -33,8 +33,8 @@ function yoshio_new(array) {
   console.log(tmp_array);
 }
 
-yoshio_new([1, 2, 3, 4, 5]); //[1, 3, 2, 5, 3, 7, 4, 9, 5]
-yoshio_new([3, 5, 7]); //[3,8,5,12,7]
+addSumToMiddle([1, 2, 3, 4, 5]); //[1, 3, 2, 5, 3, 7, 4, 9, 5]
+addSumToMiddle([3, 5, 7]); //[3,8,5,12,7]
 ```
 
 ## 2-5 素数配列の生成
