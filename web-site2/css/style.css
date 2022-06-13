@@ -1,0 +1,273 @@
+/* ========================
+    body
+  ======================== */
+body {
+  font-family: "MS Pゴシック", "メイリオ";
+  position: relative;
+}
+
+section {
+  margin: 0 auto 100px;
+  border-bottom: 2px solid #31c5b9;
+}
+
+.section-title {
+  margin-bottom: 100px;
+
+  font-size: 50px;
+  text-align: center;
+}
+
+/* ========================
+    section - all
+  ======================== */
+
+
+/* ========================
+    header
+  ======================== */
+header {
+  position: fixed;
+  z-index: 2;
+
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  padding: 30px;
+
+  font-weight: bold;
+  background-color: #fff;
+  border-bottom: 1px solid #000;
+}
+
+.header-title {
+  font-size: 40px;
+}
+
+.first-view {
+  position: relative;
+  margin-bottom: 100px;
+}
+
+.top-title {
+  position: absolute;
+  top: 40%;
+  z-index: 1;
+  width: 100%;
+
+  text-align: center;
+  font-size: 60px;
+  color: #000;
+  text-shadow: 
+  #fff 1px 1px 2px,
+  #fff -1px 1px 2px,
+  #fff 1px -1px 2px,
+  #fff -1px -1px 2px;
+}
+
+.first-view img {
+  width: 100%;
+  opacity: 0.9;
+}
+
+
+  /* header - navigation */
+  nav {
+    height: 40px;
+    font-size: 20px;
+    color: #000;
+  }
+  
+  nav ul {
+    display: flex;
+    justify-content: flex-end;
+  }
+  
+  nav li {
+    margin-left: 80px;
+  }
+  
+  nav a {
+    line-height: 40px;
+    color: #000;
+  }
+  
+  nav a:hover {
+    color: #31c5b9;
+  }
+  
+
+/* ========================
+    first-view
+  ======================== */
+
+
+/* ========================
+    section - 事業内容(service)
+  ======================== */
+.service-container {
+  display: flex;
+  align-items: center;
+  width: 80%;
+  margin: 0 auto 100px;
+}
+
+.service-container:nth-child(odd) {
+  flex-direction: row-reverse;
+}
+
+.service-img {
+  width: 50%;
+  text-align: center;
+}
+
+.service-img > img {
+  height: 400px;
+}
+
+.service-contents {
+  height: 400px;
+  width: 50%;
+  padding: 40px 0;
+  text-align: center;
+}
+
+.service-title {
+  padding-bottom: 40px;
+  font-size: 30px;
+  color: #31c5b9;
+}
+
+.service-text {
+  padding-bottom: 50px;
+  margin: 0 30px;
+  text-align: left;
+  line-height: 30px;
+  font-size: 16px;
+}
+
+.service-contents a {
+  display: block;
+  width: 30%;
+  margin: 0 auto;
+  padding: 20px 0;
+  border: 1px solid #31c5b9;
+
+  font-size: 18px;
+  color: #31c5b9;
+  font-weight: bold;
+}
+
+.service-contents a:hover {
+  color: #fff;
+  background-color: #31c5b9;
+}
+
+/* ========================
+    section - 採用情報(employment)
+  ======================== */
+  .employment-text {
+    width: 70%;
+    margin: 0 auto 100px;
+    line-height: 45px;
+    font-size: 25px;
+  }
+
+  .employment-table {
+    width: 70%;
+    margin: 0 auto 100px;
+
+    font-size: 20px;
+  }
+
+  .employment-table > thead > tr > th {
+    padding: 40px 0;
+    background-color: #a4f5ee;
+
+    text-align: center;
+  }
+
+  .employment-table > thead > tr > th:first-child {
+    width: 20%;
+  }
+
+  .employment-table > tbody > tr >th {
+    padding-left: 20px;
+  }
+
+  .employment-table > tbody > tr > td {
+    text-align: left;
+    padding: 30px;
+  }
+
+  /* ========================
+    section - 会社概要(company-information)
+  ======================== */
+  .company-information-lists {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    width: 50%;
+    margin: 0 10% 0 35%;
+
+    font-size: 18px;
+  }
+
+  .company-information-lists > dt {
+    padding: 35px 0;
+    width: 40%;
+  }
+
+  .company-information-lists > dd {
+    padding: 35px;
+    width: 60%;
+  }
+/* ========================
+    footer
+  ======================== */
+footer {
+  padding: 100px 50px 50px;
+
+  color: #000;
+  font-weight: bold;
+  background: #31c5b9;
+}
+
+.footer-top {
+  display: flex;
+  justify-content: space-between;
+  margin: 40px;
+}
+
+.footer-left h2 {
+  font-weight: bold;
+  font-size: 35px;
+}
+
+.footer-right > ul {
+  display: flex;
+}
+
+.footer-right > ul >li {
+  margin-right: 50px;
+
+  text-align: center;
+  font-size: 24px;
+  line-height: 35px;
+}
+
+.footer-right > ul > li > ul {
+  padding-left: 40px;
+  text-align-last: left;
+}
+
+.footer-right > ul > li > ul > li{
+  font-size: 15px;
+  margin-top: 20px;
+}
+
+.footer-bottom {
+  font-size: 15px;
+  text-align: right;
+}
+
