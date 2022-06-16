@@ -15,6 +15,8 @@ export const App = () => {
       return [];
     }
   });
+  const [isEditing, setIsEditing] = useState(false);
+  const [currentTodo, setCurrentTodo] = useState({});
 
   useEffect(() => {
     localStorage.setItem("todos", JSON.stringify(todos))
@@ -33,6 +35,10 @@ export const App = () => {
     });
     setTodos(removeItem);
   } 
+  const handleEditInputChange = (e) => {
+    setCurrentTodo({ ...currentTodo, text: e.target.value });
+    console.log(currentTodo);}
+
 
   return (
     <>
@@ -51,6 +57,7 @@ export const App = () => {
         <ul>
           {todos.map((todo) => {
             return (
+              <>
               <li key={todo.id}>
                 <div className="list-row">
                   <select name="status" id="status">
@@ -59,11 +66,25 @@ export const App = () => {
                     <option value="3">Completed</option>
                     <option value="4">Pending</option>
                   </select>
-                    <p>{todo.text}</p>
+                  <p>{todo.text}</p>
                   <button className="edit-btn"><EditIcon /></button>
                   <button className="delete-btn" onClick={() => handleDeleteClick(todo.id)}><DeleteForeverIcon /></button>
                 </div>
               </li>
+                <li>
+                <div className="list-row">
+                  <select name="status" id="status">
+                    <option value="1">Waiting</option>
+                    <option value="2">Working</option>
+                    <option value="3">Completed</option>
+                    <option value="4">Pending</option>
+                  </select>
+                  <input type="text" placeholder="Edit your todo" />
+                  <button className="update-btn">Update</button>
+                  <button className="cancel-btn">Cancel</button>
+                </div>
+              </li>  
+              </>
             )
           })}
         </ul>
