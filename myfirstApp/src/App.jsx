@@ -1,5 +1,5 @@
 import React, { useState,useEffect } from "react";
-import "./index.css";
+import "./App.css";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 
@@ -44,15 +44,16 @@ export const App = () => {
   } 
 
   //編集ボタンを押したら編集モードに切り替わる
-  const handleEditClick = () => {
+  const handleEditClick = (todo) => {
     setIsEditing(true);
-    setCurrentTodo({ ...todoText });
+    setCurrentTodo({ ...todo });
   }
 
-  const handleEditInputChange = (e) => {
-    setCurrentTodo({ ...currentTodo, text: e.target.value });
-    console.log(currentTodo);
+  //編集モードが入力されたらcurrentTodoを更新
+  const handleEditInputChange = (event) => {
+    setCurrentTodo({ ...currentTodo, text: event.target.value });
   }
+
   const handleUpdateTodo = (id, updatedTodo) => {
     const updatedItem = todos.map((todo) => {
         return todo.id === id ? updatedTodo : todo;
@@ -64,46 +65,44 @@ export const App = () => {
     handleUpdateTodo(currentTodo.id, currentTodo)
   }
 
-
   return (
     <>
       <header>
           <h1>todos</h1>  
       </header>
-
       <div className="input-area">
         <div className="input-container">
-          <input type="text" placeholder="Enter your todo" value={todoText} onChange={onChangeTodoText} />
-          <button className="add-btn" onClick={onClickAdd}>+</button>
+        {isEditing ? (
+          <>
+            <input
+                name = "editTodo"
+                type="text"
+                placeholder="Edit your todo"
+                value={currentTodo.text}
+                onChange={handleEditInputChange}
+            />
+            <button className="update-btn" onClick={handleEditFormSubmit}>Update</button>
+            <button className="cancel-btn" onClick={() => setIsEditing(false)}>Cancel</button>
+          </>
+        ) : (
+          <>
+            <input 
+              type = "text"
+              placeholder = "Enter your todo"
+              value = { todoText } 
+              onChange = { onChangeTodoText } 
+            />
+            <button className="add-btn" onClick={onClickAdd}>+</button>  
+          </>
+      )}
         </div>
       </div>
+
 
       <div className="todos-area">
         <ul>
           {todos.map((todo) => {
             return (
-              <>
-                {isEditing ? (
-                  <li>
-                    <div className="list-row">
-                      <select name="status" id="status">
-                        <option value="1">Waiting</option>
-                        <option value="2">Working</option>
-                        <option value="3">Completed</option>
-                        <option value="4">Pending</option>
-                      </select>
-                      <input
-                        name = "editTodo"
-                        type="text"
-                        placeholder="Edit your todo"
-                        value={currentTodo.text}
-                        onChange={handleEditInputChange}
-                      />
-                      <button className="update-btn" onClick={() => handleEditFormSubmit}>Update</button>
-                      <button className="cancel-btn" onClick={() => setIsEditing(false)}>Cancel</button>
-                    </div>
-                  </li>  
-                ):(
                   <li key={todo.id}>
                     <div className="list-row">
                       <select name="status" id="status">
@@ -112,18 +111,15 @@ export const App = () => {
                         <option value="3">Completed</option>
                         <option value="4">Pending</option>
                       </select>
-                      <p>{todo.text}</p>
+                    <p>{todo.text}</p>
                       <button className="edit-btn" onClick={() => handleEditClick(todo)}><EditIcon /></button>
                       <button className="delete-btn" onClick={() => handleDeleteClick(todo.id)}><DeleteForeverIcon /></button>
                     </div>
-                  </li>     
-                )}
-              </> 
+                  </li>
             )
           })}
         </ul>
       </div>
-
     </>
   )
 };
