@@ -1,7 +1,8 @@
 import React, { useState,useEffect } from "react";
 import "./App.css";
-import EditIcon from "@mui/icons-material/Edit";
-import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
+import { EditTodo } from "./components/EditTodo";
+import { AddTodo } from "./components/AddTodo";
+import { TodoItem } from "./components/TodoItem";
 
 export const App = () => {
   //入力欄のtodoのステート
@@ -50,10 +51,11 @@ export const App = () => {
   }
 
   //編集モードが入力されたらcurrentTodoを更新
-  const handleEditInputChange = (event) => {
+  const onEditInputChange = (event) => {
     setCurrentTodo({ ...currentTodo, text: event.target.value });
   }
 
+  //編集されたTODOをidで照合して書き換える
   const handleUpdateTodo = (id, updatedTodo) => {
     const updatedItem = todos.map((todo) => {
         return todo.id === id ? updatedTodo : todo;
@@ -61,7 +63,7 @@ export const App = () => {
       setIsEditing(false);
       setTodos(updatedItem);
   }
-  const handleEditFormSubmit = (e) => {
+  const onEditFormSubmit = (e) => {
     handleUpdateTodo(currentTodo.id, currentTodo)
   }
 
@@ -73,49 +75,32 @@ export const App = () => {
       <div className="input-area">
         <div className="input-container">
         {isEditing ? (
-          <>
-            <input
-                name = "editTodo"
-                type="text"
-                placeholder="Edit your todo"
-                value={currentTodo.text}
-                onChange={handleEditInputChange}
+            <EditTodo
+              currentTodo={currentTodo}
+              onEditInputChange={onEditInputChange}
+              onEditFormSubmit={onEditFormSubmit}
+              setIsEditing={setIsEditing}
             />
-            <button className="update-btn" onClick={handleEditFormSubmit}>Update</button>
-            <button className="cancel-btn" onClick={() => setIsEditing(false)}>Cancel</button>
-          </>
         ) : (
-          <>
-            <input 
-              type = "text"
-              placeholder = "Enter your todo"
-              value = { todoText } 
-              onChange = { onChangeTodoText } 
+            <AddTodo
+                todoText={todoText}
+                onChangeTodoText={onChangeTodoText}
+                onClickAdd={onClickAdd}
             />
-            <button className="add-btn" onClick={onClickAdd}>+</button>  
-          </>
       )}
         </div>
       </div>
-
 
       <div className="todos-area">
         <ul>
           {todos.map((todo) => {
             return (
-                  <li key={todo.id}>
-                    <div className="list-row">
-                      <select name="status" id="status">
-                        <option value="1">Waiting</option>
-                        <option value="2">Working</option>
-                        <option value="3">Completed</option>
-                        <option value="4">Pending</option>
-                      </select>
-                    <p>{todo.text}</p>
-                      <button className="edit-btn" onClick={() => handleEditClick(todo)}><EditIcon /></button>
-                      <button className="delete-btn" onClick={() => handleDeleteClick(todo.id)}><DeleteForeverIcon /></button>
-                    </div>
-                  </li>
+              <TodoItem
+                key={todo.id}
+                todo={todo}
+                handleEditClick={handleEditClick}
+                handleDeleteClick={handleDeleteClick}
+              />
             )
           })}
         </ul>
