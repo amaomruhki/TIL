@@ -1,7 +1,7 @@
 import { FormControl, List, TextField } from '@material-ui/core';
 import AddToPhotosIcon from '@material-ui/icons/AddToPhotos';
 import React,{ useState, useEffect } from 'react';
-import './App.css';
+import styles from './App.module.css';
 import { db } from "./firebase";
 import TaskItem from './TaskItem';
 
