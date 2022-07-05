@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import styles from "./TaskItem.module.css"
-import firebase from "firebase/app";
 import { db } from './firebase';
 import { ListItem, Grid, TextField } from '@material-ui/core';
 import DeleteOutlineOutlinedIcon from '@material-ui/icons/DeleteOutlineOutlined';
@@ -24,7 +23,7 @@ const TaskItem: React.FC<PROPS> = (props) => {
   return (
       <ListItem>
       <h2>{props.title}</h2>
-      <Grid container justify="flex-end">
+      <Grid container justifyContent="flex-end">
         <TextField label="Edit task"
           value={title}
           onChange={(e: React.ChangeEvent<HTMLInputElement>) => setTitle(e.target.value) } 
