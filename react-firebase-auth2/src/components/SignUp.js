@@ -1,10 +1,11 @@
 import { auth } from "../firebase";
+import { createUserWithEmailAndPassword } from "firebase/auth";
 
 const SignUp = () => {
 	const handleSubmit = (event) => {
 		event.preventDefault();
 		const { email, password } = event.target.elements;
-		auth.createUserWithEmailAndPassword(email.value, password.value);
+		createUserWithEmailAndPassword(auth, email.value, password.value);
 	};
 
 	return (
