@@ -1,18 +1,42 @@
-import React from "react";
-import { auth } from "../firebase";
-import { Link } from "react-router-dom";
-import { signInWithEmailAndPassword } from "firebase/auth";
+import React, { useState } from "react";
+import { auth, provider } from "../firebase";
+import { Link, useNavigate } from "react-router-dom";
+import { signInWithEmailAndPassword, signInWithPopup } from "firebase/auth";
 
 const Login = () => {
-	const handleSubmit = (event) => {
-		event.preventDefault();
-		const { email, password } = event.target.elements;
-		signInWithEmailAndPassword(auth, email.value, password.value);
+	const navigate = useNavigate();
+	const [error, setError] = useState("");
+
+	const handleLogin = async (event) => {
+		try {
+			await signInWithPopup(auth, provider);
+			navigate("/");
+		} catch (error) {
+			console.log(error);
+			setError(error.message);
+		}
 	};
 
+	const handleSubmit = async (event) => {
+		event.preventDefault();
+		const { email, password } = event.target.elements;
+		try {
+			await signInWithEmailAndPassword(auth, email.value, password.value);
+			navigate("/");
+		} catch (error) {
+			console.log(error);
+			setError(error.message);
+		}
+	};
 	return (
 		<div>
-			<h1>ログイン</h1>
+			<div>
+				<h1>グーグルアカウントでログイン</h1>
+				{error && <p style={{ color: "red" }}>{error}</p>}
+				<button onClick={handleLogin}>Googleログイン</button>
+			</div>
+			<h1>メールアドレスでログイン</h1>
+			{error && <p style={{ color: "red" }}>{error}</p>}
 			<form onSubmit={handleSubmit}>
 				<div>
 					<label>メールアドレス</label>
