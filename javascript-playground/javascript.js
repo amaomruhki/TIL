@@ -1,5 +1,17 @@
-const request = new XMLHttpRequest();
-//あえて同期処理としてfalse
-request.open("GET", "https://jsonplaceholder.typicode.com/photos", false);
-request.send(null);
-console.log(request);
+new Promise(() => {});
+
+console.log("start");
+
+setTimeout(() => {
+	console.log("1秒経ったよ");
+	setTimeout(() => {
+		console.log("1秒経ったよ");
+		setTimeout(() => {
+			console.log("1秒経ったよ");
+		}, 1000);
+	}, 1000);
+}, 1000);
+
+const promise = new Promise();
+
+console.log("end");
