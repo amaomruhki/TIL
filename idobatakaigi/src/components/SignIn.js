@@ -50,6 +50,7 @@ export default function SignIn({ setName }) {
 	const [string, setString] = useState("");
 
 	useEffect(() => {
+		//空文字だったらtrue、文字有ならfalseを返す
 		const disabled = string === "";
 		setDisabled(disabled);
 		console.log({ disabled });
@@ -75,12 +76,13 @@ export default function SignIn({ setName }) {
 						onChange={(e) => setString(e.target.value)}
 					/>
 					<Button
-						type="submit"
+						type="button"
 						fullWidth
 						variant="contained"
 						color="primary"
 						className={classes.submit}
 						disabled={disabled}
+						onClick={() => setName(string)}
 					>
 						はじめる
 					</Button>
