@@ -84,6 +84,7 @@ export default function SignIn({ setName }) {
 							}
 						}}
 						onCompositionStart={() => setIsComposed(true)}
+						//アロー関数にしないと関数が実行されてしまう
 						onCompositionEnd={() => setIsComposed(false)}
 					/>
 					<Button
