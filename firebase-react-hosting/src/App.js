@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
-import { Container, Form, Input, InputGroup, Button } from "reactstrap";
+import { Container, Form, Input, InputGroup, Button, Table } from "reactstrap";
 
 function App() {
 	const [value, setValue] = useState("");
@@ -10,12 +10,19 @@ function App() {
 	const handleSubmit = (e) => {
 		e.preventDefault();
 		addTodo(value);
+		setValue("");
 	};
 
 	const addTodo = (text) => {
 		const newTodos = [...todos, text];
 		setTodos(newTodos);
 		console.log(newTodos);
+	};
+
+	const removeTodo = (index) => {
+		const newTodos = [...todos];
+		newTodos.splice(index, 1);
+		setTodos(newTodos);
 	};
 
 	return (
@@ -34,6 +41,23 @@ function App() {
 						</Button>
 					</InputGroup>
 				</Form>
+			</Container>
+			<Container>
+				<Table>
+					<tbody>
+						{todos &&
+							todos.map((todo, index) => (
+								<tr key={index}>
+									<th className="text-start">{todo}</th>
+									<td className="text-end">
+										<Button color="danger" onClick={() => removeTodo(index)}>
+											delete
+										</Button>
+									</td>
+								</tr>
+							))}
+					</tbody>
+				</Table>
 			</Container>
 		</div>
 	);
