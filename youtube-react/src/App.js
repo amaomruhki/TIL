@@ -1,3 +1,4 @@
+import React from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import Top from "./pages/Top";
 import Search from "./pages/Search";
