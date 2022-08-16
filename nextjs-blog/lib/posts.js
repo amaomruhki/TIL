@@ -35,3 +35,25 @@ export function getSortedPostsData() {
 		}
 	});
 }
+
+export function getAllPostIds() {
+	const fileNames = fs.readdirSync(postsDirectory);
+	return fileNames.map((filename) => {
+		return {
+			params: {
+				id: fileName.replace(/\.md$/, ""),
+			},
+		};
+	});
+}
+
+export function getPostData(id) {
+	const fullPath = path.join(postDirectory, `${id}.md`);
+	const fileContents = fs.readFileSync(fullPath, "utf8");
+	const matterResult = matter(fileContents);
+
+	return {
+		id,
+		...matterResult.data,
+	};
+}
