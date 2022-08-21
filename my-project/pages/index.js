@@ -16,20 +16,22 @@ const Home = () => {
 
 	return (
 		<>
-			<h1>Home</h1>
-			<div>
-				<p>count:{count}</p>
-				<button onClick={() => setCount(increment)}>count increment</button>
+			<div className="h-screen">
+				<h1>Home</h1>
+				<div>
+					<p>count:{count}</p>
+					<button onClick={() => setCount(increment)}>count increment</button>
+					<hr />
+					<p>user.name:{user.name}</p>
+					<p>user.age:{user.age}</p>
+					<button onClick={() => setUser(updateUser)}>age increment</button>
+				</div>
 				<hr />
-				<p>user.name:{user.name}</p>
-				<p>user.age:{user.age}</p>
-				<button onClick={() => setUser(updateUser)}>age increment</button>
-			</div>
-			<hr />
-			<div>
-				<Link href="/about">
-					<a>About</a>
-				</Link>
+				<div>
+					<Link href="/about">
+						<a>About</a>
+					</Link>
+				</div>
 			</div>
 		</>
 	);
