@@ -1,5 +1,10 @@
+import { useState, useEffect } from "react";
 import Link from "next/link";
-import Header from "../src/store/components/Header";
+import { useSetRecoilState, useRecoilState } from "recoil";
+import { collection, getDocs, QuerySnapshot } from "firebase/firestore";
+import { db } from "../src/firebase";
+import Header from "../src/components/Header";
+import { todoListState } from "../src/atoms/todos";
 import { DeleteIcon, EditIcon } from "@chakra-ui/icons";
 import {
 	Text,
@@ -12,27 +17,37 @@ import {
 	Flex,
 	Spacer,
 } from "@chakra-ui/react";
-import { useState } from "react";
 
 type todo = {
-	id: number;
+	id: string;
 	title: string;
+	detail?: string;
 	status: "done" | "notStarted" | "doing" | "all";
 };
 
-export default function Home(): JSX.Element {
-	const todoList: todo[] = [
+export default function Home() {
+	const [todos, setTodos] = useState<todo[]>([
 		{
-			id: 1,
-			title: "たまご、豚肉500グラム、トイレットペーパー、サランラップ買う",
-			status: "done",
+			id: "",
+			title: "",
+			detail: "",
+			status: "notStarted",
 		},
-		{ id: 2, title: "子どものお迎え", status: "notStarted" },
-		{ id: 3, title: "企画書の提出", status: "doing" },
-	];
-	console.log(todoList);
+	]);
 
-	const [todos, setTodos] = useState<todo[]>(todoList);
+	useEffect(() => {
+		const tasksCollectionRef = collection(db, "tasks");
+		getDocs(tasksCollectionRef).then((querySnapshot) => {
+			setTodos(
+				querySnapshot.docs.map((doc) => ({
+					id: doc.id,
+					title: doc.data().title,
+					detail: doc.data().detail,
+					status: doc.data().status,
+				}))
+			);
+		});
+	}, []);
 
 	return (
 		<>
@@ -86,9 +101,6 @@ export default function Home(): JSX.Element {
 										cursor="pointer"
 										value={todo.status}
 										focusBorderColor="pink.500"
-										// onChange={(e) => {
-										// 	setTodos([...todos,{...todo,todo.status:e.target.value}]);
-										// }}
 									>
 										<option value="notStarted">Not Started</option>
 										<option value="doing">Doing</option>
@@ -96,7 +108,7 @@ export default function Home(): JSX.Element {
 									</Select>
 									<IconButton
 										_hover={{
-											opacity: "0.65",
+											color: "pink.500",
 										}}
 										aria-label="delete"
 										icon={<DeleteIcon />}
@@ -104,7 +116,7 @@ export default function Home(): JSX.Element {
 									/>
 									<IconButton
 										_hover={{
-											opacity: "0.65",
+											color: "pink.500",
 										}}
 										aria-label="Edit"
 										icon={<EditIcon />}

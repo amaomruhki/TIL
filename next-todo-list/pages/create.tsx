@@ -1,9 +1,7 @@
 import Link from "next/link";
-import Header from "../src/store/components/Header";
-import { ChevronRightIcon } from "@chakra-ui/icons";
+import Header from "../src/components/Header";
 import {
 	Text,
-	HStack,
 	VStack,
 	Select,
 	Button,
