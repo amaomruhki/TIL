@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { useSetRecoilState, useRecoilState } from "recoil";
-import { collection, getDocs, QuerySnapshot } from "firebase/firestore";
+import { collection, getDocs, setDoc, doc } from "firebase/firestore";
 import { db } from "../src/firebase";
 import Header from "../src/components/Header";
 import { todoListState } from "../src/atoms/todos";
@@ -25,7 +25,7 @@ type todo = {
 	status: "done" | "notStarted" | "doing" | "all";
 };
 
-export default function Home() {
+export default function Home(): JSX.Element {
 	const [todos, setTodos] = useState<todo[]>([
 		{
 			id: "",
@@ -34,6 +34,7 @@ export default function Home() {
 			status: "notStarted",
 		},
 	]);
+	const [status, setStatus] = useState("notStarted");
 
 	useEffect(() => {
 		const tasksCollectionRef = collection(db, "tasks");
@@ -48,6 +49,17 @@ export default function Home() {
 			);
 		});
 	}, []);
+
+	const handleStatusChange = async (
+		todoId: string,
+		e: React.ChangeEvent<HTMLSelectElement>
+	) => {
+		await setDoc(
+			doc(db, `tasks/${todoId}`),
+			{ status: e.target.value },
+			{ merge: true }
+		);
+	};
 
 	return (
 		<>
@@ -99,8 +111,12 @@ export default function Home() {
 									<Select
 										w="xs"
 										cursor="pointer"
-										value={todo.status}
+										value={status}
 										focusBorderColor="pink.500"
+										onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
+											setStatus(e.target.value);
+											handleStatusChange(todo.id, e);
+										}}
 									>
 										<option value="notStarted">Not Started</option>
 										<option value="doing">Doing</option>
