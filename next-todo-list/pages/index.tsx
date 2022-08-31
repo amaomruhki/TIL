@@ -34,7 +34,6 @@ export default function Home(): JSX.Element {
 			status: "notStarted",
 		},
 	]);
-	const [status, setStatus] = useState("notStarted");
 
 	useEffect(() => {
 		const tasksCollectionRef = collection(db, "tasks");
@@ -48,15 +47,16 @@ export default function Home(): JSX.Element {
 				}))
 			);
 		});
-	}, []);
+	}, [todos]);
 
 	const handleStatusChange = async (
 		todoId: string,
 		e: React.ChangeEvent<HTMLSelectElement>
 	) => {
+		const status = e.target.value;
 		await setDoc(
 			doc(db, `tasks/${todoId}`),
-			{ status: e.target.value },
+			{ status: status },
 			{ merge: true }
 		);
 	};
@@ -111,10 +111,9 @@ export default function Home(): JSX.Element {
 									<Select
 										w="xs"
 										cursor="pointer"
-										value={status}
+										value={todo.status}
 										focusBorderColor="pink.500"
 										onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
-											setStatus(e.target.value);
 											handleStatusChange(todo.id, e);
 										}}
 									>
