@@ -1,7 +1,19 @@
+// ステータスを変更するとちらつく
+// onClickで型エラーが出る
+//useEffectの第二引数に[todos]を入れると全部消える、firebaseのデータは消えない
+//Unhandled Runtime Error
+// FirebaseError: Invalid document reference. Document references must have an even number of segments, but todos has 1.
+
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { useSetRecoilState, useRecoilState } from "recoil";
-import { collection, getDocs, setDoc, doc } from "firebase/firestore";
+import {
+	collection,
+	getDocs,
+	setDoc,
+	doc,
+	deleteDoc,
+} from "firebase/firestore";
 import { db } from "../src/firebase";
 import Header from "../src/components/Header";
 import { todoListState } from "../src/atoms/todos";
@@ -34,10 +46,12 @@ export default function Home(): JSX.Element {
 			status: "notStarted",
 		},
 	]);
+	const [filter, setFilter] = useState("all");
+	const [filteredTodos, setFilteredTodos] = useState([]);
 
 	useEffect(() => {
-		const tasksCollectionRef = collection(db, "tasks");
-		getDocs(tasksCollectionRef).then((querySnapshot) => {
+		const todosCollectionRef = collection(db, "todos");
+		getDocs(todosCollectionRef).then((querySnapshot) => {
 			setTodos(
 				querySnapshot.docs.map((doc) => ({
 					id: doc.id,
@@ -47,18 +61,43 @@ export default function Home(): JSX.Element {
 				}))
 			);
 		});
-	}, [todos]);
+	}, []);
 
-	const handleStatusChange = async (
+	useEffect(() => {
+		const filteringTodos = () => {
+			switch (filter) {
+				case "notStarted":
+					setFilteredTodos(
+						todos.filter((todo) => todo.status === "notStarted")
+					);
+					break;
+				case "doing":
+					setFilteredTodos(todos.filter((todo) => todo.status === "doing"));
+					break;
+				case "done":
+					setFilteredTodos(todos.filter((todo) => todo.status === "done"));
+					break;
+				default:
+					setFilteredTodos(todos);
+			}
+		};
+		filteringTodos();
+	}, [filter, todos]);
+
+	const statusChange = async (
 		todoId: string,
 		e: React.ChangeEvent<HTMLSelectElement>
 	) => {
 		const status = e.target.value;
 		await setDoc(
-			doc(db, `tasks/${todoId}`),
+			doc(db, `todos/${todoId}`),
 			{ status: status },
 			{ merge: true }
 		);
+	};
+
+	const deleteTodo = async (todoId: string) => {
+		await deleteDoc(doc(db, `todos/${todoId}`));
 	};
 
 	return (
@@ -72,7 +111,13 @@ export default function Home(): JSX.Element {
 					alignItems="stretch"
 				>
 					<Flex gap="2">
-						<Select focusBorderColor="pink.500" cursor="pointer" w="xs">
+						<Select
+							value={filter}
+							onChange={(e) => setFilter(e.target.value)}
+							focusBorderColor="pink.500"
+							cursor="pointer"
+							w="xs"
+						>
 							<option value="all">All</option>
 							<option value="notStarted">Not Started</option>
 							<option value="doing">Doing</option>
@@ -103,7 +148,7 @@ export default function Home(): JSX.Element {
 							maxW={{ base: "90vw", sm: "80vw", lg: "50vw", xl: "30vw" }}
 							alignItems="stretch"
 						>
-							{todos.map((todo) => (
+							{filteredTodos.map((todo) => (
 								<HStack key={todo.id}>
 									<Text w="100%" p="8px" borderRadius="lg" cursor="pointer">
 										{todo.title}
@@ -114,7 +159,7 @@ export default function Home(): JSX.Element {
 										value={todo.status}
 										focusBorderColor="pink.500"
 										onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
-											handleStatusChange(todo.id, e);
+											statusChange(todo.id, e);
 										}}
 									>
 										<option value="notStarted">Not Started</option>
@@ -128,16 +173,19 @@ export default function Home(): JSX.Element {
 										aria-label="delete"
 										icon={<DeleteIcon />}
 										variant="unstyled"
+										onClick={deleteTodo(todo.id)}
 									/>
-									<IconButton
-										_hover={{
-											color: "pink.500",
-										}}
-										aria-label="Edit"
-										icon={<EditIcon />}
-										color="gray"
-										variant="unstyled"
-									/>
+									<Link href="/Edit">
+										<IconButton
+											_hover={{
+												color: "pink.500",
+											}}
+											aria-label="Edit"
+											icon={<EditIcon />}
+											color="gray"
+											variant="unstyled"
+										/>
+									</Link>
 								</HStack>
 							))}
 						</VStack>

@@ -14,7 +14,7 @@ import {
 	Heading,
 } from "@chakra-ui/react";
 
-const Create = () => {
+const Edit = () => {
 	return (
 		<>
 			工事中
@@ -92,4 +92,4 @@ const Create = () => {
 	);
 };
 
-export default Create;
+export default Edit;
