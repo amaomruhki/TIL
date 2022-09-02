@@ -1,10 +1,14 @@
-//1952できてること
+//できてること
 //topとcreateページの見た目
 //firebaseのデータ読み込み、タスク一覧を表示
 //ソート
 
-//できてへんこと
-//ステータス変更＞変更するとfbには反映されるが、リスト上は更新かけないと反映されない
+//できてないこと
+//ステータス変更＞変更するとfirebaseには反映されるが、リスト上は更新かけないと反映されない
+//削除ボタン＞押すとfirebaseでは削除されるが、リスト上は更新かけないと反映されない
+
+//未実装
+//recoil、auth、createページと編集
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
