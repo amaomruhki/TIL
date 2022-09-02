@@ -1,8 +1,10 @@
-// ステータスを変更するとちらつく
-// onClickで型エラーが出る
-//useEffectの第二引数に[todos]を入れると全部消える、firebaseのデータは消えない
-//Unhandled Runtime Error
-// FirebaseError: Invalid document reference. Document references must have an even number of segments, but todos has 1.
+//1952できてること
+//topとcreateページの見た目
+//firebaseのデータ読み込み、タスク一覧を表示
+//ソート
+
+//できてへんこと
+//ステータス変更＞変更するとfbには反映されるが、リスト上は更新かけないと反映されない
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
@@ -11,6 +13,7 @@ import {
 	collection,
 	getDocs,
 	setDoc,
+	updateDoc,
 	doc,
 	deleteDoc,
 } from "firebase/firestore";
@@ -47,7 +50,7 @@ export default function Home(): JSX.Element {
 		},
 	]);
 	const [filter, setFilter] = useState("all");
-	const [filteredTodos, setFilteredTodos] = useState([]);
+	const [filteredTodos, setFilteredTodos] = useState<todo[]>([]);
 
 	useEffect(() => {
 		const todosCollectionRef = collection(db, "todos");
@@ -173,7 +176,8 @@ export default function Home(): JSX.Element {
 										aria-label="delete"
 										icon={<DeleteIcon />}
 										variant="unstyled"
-										onClick={deleteTodo(todo.id)}
+										onClick={() => deleteTodo(todo.id)}
+										//firebaseからは消えるけどリストから消えない
 									/>
 									<Link href="/Edit">
 										<IconButton
