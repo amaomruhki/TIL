@@ -28,18 +28,19 @@ import {
 	Flex,
 	Spacer,
 } from "@chakra-ui/react";
+import { Todo } from "../src/atoms/todos";
 
-type todo = {
-	id: string;
-	title: string;
-	detail?: string;
-	status: "done" | "notStarted" | "doing" | "all";
-};
+// type todo = {
+// 	id: string;
+// 	title: string;
+// 	detail?: string;
+// 	status: "done" | "notStarted" | "doing" | "all";
+// };
 
 export default function Home(): JSX.Element {
 	const [todos, setTodos] = useRecoilState(todoListState);
 	const [filter, setFilter] = useState("all");
-	const [filteredTodos, setFilteredTodos] = useState<todo[]>([]);
+	const [filteredTodos, setFilteredTodos] = useState<Todo[]>([]);
 
 	useEffect(() => {
 		const q = query(collection(db, "todos"));
