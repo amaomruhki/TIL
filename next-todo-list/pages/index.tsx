@@ -1,25 +1,17 @@
-//できてること
-//topとcreateページの見た目
-//firebaseのデータ読み込み、タスク一覧を表示
-//ソート
-
-//できてないこと
-//ステータス変更＞変更するとfirebaseには反映されるが、リスト上は更新かけないと反映されない
-//削除ボタン＞押すとfirebaseでは削除されるが、リスト上は更新かけないと反映されない
-
 //未実装
-//recoil、auth、createページと編集
+//recoil（全部できたらカスタムフック、特にfirebase部分）、auth、createページと編集
+//最後はすっきりさせる。コンポーネントは少し分ける、メンタリング時でも。最初はコンポーネント化気にしない
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { useSetRecoilState, useRecoilState } from "recoil";
+import { useRecoilState } from "recoil";
 import {
 	collection,
-	getDocs,
 	setDoc,
-	updateDoc,
 	doc,
 	deleteDoc,
+	query,
+	onSnapshot,
 } from "firebase/firestore";
 import { db } from "../src/firebase";
 import Header from "../src/components/Header";
@@ -45,20 +37,13 @@ type todo = {
 };
 
 export default function Home(): JSX.Element {
-	const [todos, setTodos] = useState<todo[]>([
-		{
-			id: "",
-			title: "",
-			detail: "",
-			status: "notStarted",
-		},
-	]);
+	const [todos, setTodos] = useRecoilState(todoListState);
 	const [filter, setFilter] = useState("all");
 	const [filteredTodos, setFilteredTodos] = useState<todo[]>([]);
 
 	useEffect(() => {
-		const todosCollectionRef = collection(db, "todos");
-		getDocs(todosCollectionRef).then((querySnapshot) => {
+		const q = query(collection(db, "todos"));
+		const unsub = onSnapshot(q, (querySnapshot) => {
 			setTodos(
 				querySnapshot.docs.map((doc) => ({
 					id: doc.id,
@@ -68,6 +53,7 @@ export default function Home(): JSX.Element {
 				}))
 			);
 		});
+		return () => unsub();
 	}, []);
 
 	useEffect(() => {
@@ -181,7 +167,6 @@ export default function Home(): JSX.Element {
 										icon={<DeleteIcon />}
 										variant="unstyled"
 										onClick={() => deleteTodo(todo.id)}
-										//firebaseからは消えるけどリストから消えない
 									/>
 									<Link href="/Edit">
 										<IconButton

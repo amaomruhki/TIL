@@ -17,7 +17,6 @@ import {
 const Create = () => {
 	return (
 		<>
-			工事中
 			<Header />
 			<VStack px={4} py={5} minH="100vh">
 				<VStack
