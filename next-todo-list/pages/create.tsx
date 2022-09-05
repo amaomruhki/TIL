@@ -1,4 +1,5 @@
 import Link from "next/link";
+// import { useSetRecoilState } from "recoil";
 import Header from "../src/components/Header";
 import {
 	Text,
@@ -13,8 +14,26 @@ import {
 	Box,
 	Heading,
 } from "@chakra-ui/react";
+import { useState } from "react";
+import { todoListState } from "../src/atoms/todos";
+import { db } from "../src/firebase";
+import { addDoc, collection } from "firebase/firestore";
 
 const Create = () => {
+	const [inputTitle, setInputTitle] = useState("");
+	const [inputDetail, setInputDetail] = useState("");
+	// const setTodoList = useSetRecoilState(todoListState);
+
+	const addTodo = async (e: React.MouseEvent<HTMLButtonElement>) => {
+		await addDoc(collection(db, "todos"), {
+			title: inputTitle,
+			detail: inputDetail,
+			status: "notStarted",
+		});
+		setInputTitle("");
+		setInputDetail("");
+	};
+
 	return (
 		<>
 			<Header />
@@ -33,24 +52,22 @@ const Create = () => {
 						placeholder="Title"
 						focusBorderColor="pink.500"
 						variant="filled"
+						type="text"
+						value={inputTitle}
+						onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+							setInputTitle(e.target.value);
+						}}
 					/>
 					<Text mb="8px">Detail</Text>
 					<Textarea
 						placeholder="Detail"
 						focusBorderColor="pink.500"
 						variant="filled"
+						value={inputDetail}
+						onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => {
+							setInputDetail(e.target.value);
+						}}
 					/>
-					<Text mb="8px">Priority</Text>
-					<Select
-						w="xs"
-						cursor="pointer"
-						focusBorderColor="pink.500"
-						variant="filled"
-					>
-						<option value="notStarted">Not Started</option>
-						<option value="doing">Doing</option>
-						<option value="done">Done</option>
-					</Select>
 					<Box py={10}>
 						<Flex
 							align="right"
@@ -79,6 +96,8 @@ const Create = () => {
 									_hover={{
 										opacity: "0.65",
 									}}
+									disabled={!inputTitle}
+									onClick={addTodo}
 								>
 									Create
 								</Button>

@@ -30,13 +30,6 @@ import {
 } from "@chakra-ui/react";
 import { Todo } from "../src/atoms/todos";
 
-// type todo = {
-// 	id: string;
-// 	title: string;
-// 	detail?: string;
-// 	status: "done" | "notStarted" | "doing" | "all";
-// };
-
 export default function Home(): JSX.Element {
 	const [todos, setTodos] = useRecoilState(todoListState);
 	const [filter, setFilter] = useState("all");
@@ -55,6 +48,7 @@ export default function Home(): JSX.Element {
 			);
 		});
 		return () => unsub();
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
 	useEffect(() => {
