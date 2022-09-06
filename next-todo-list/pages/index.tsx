@@ -1,7 +1,7 @@
 //未実装
 //recoil（全部できたらカスタムフック、特にfirebase部分）、auth、createページと編集
 //最後はすっきりさせる。コンポーネントは少し分ける、メンタリング時でも。最初はコンポーネント化気にしない
-
+import type { NextPage } from "next";
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { useRecoilState } from "recoil";
@@ -138,9 +138,11 @@ export default function Home(): JSX.Element {
 						>
 							{filteredTodos.map((todo) => (
 								<HStack key={todo.id}>
-									<Text w="100%" p="8px" borderRadius="lg" cursor="pointer">
-										{todo.title}
-									</Text>
+									<Link href={`/${todo.id}/detail`}>
+										<Text w="100%" p="8px" borderRadius="lg" cursor="pointer">
+											<a>{todo.title}</a>
+										</Text>
+									</Link>
 									<Select
 										w="xs"
 										cursor="pointer"
@@ -163,7 +165,7 @@ export default function Home(): JSX.Element {
 										variant="unstyled"
 										onClick={() => deleteTodo(todo.id)}
 									/>
-									<Link href="/Edit">
+									<Link href={`/${todo.id}/edit`}>
 										<IconButton
 											_hover={{
 												color: "pink.500",

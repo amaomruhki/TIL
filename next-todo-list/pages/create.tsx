@@ -4,7 +4,6 @@ import Header from "../src/components/Header";
 import {
 	Text,
 	VStack,
-	Select,
 	Button,
 	Input,
 	Textarea,

@@ -7,7 +7,7 @@ export type Todo = {
 	id: string;
 	title: string;
 	detail?: string;
-	status: "done" | "notStarted" | "doing" | "all";
+	status?: "done" | "notStarted" | "doing" | "all";
 };
 
 export const todoListState = atom<Todo[]>({
