@@ -28,12 +28,20 @@ import {
 	Flex,
 	Spacer,
 } from "@chakra-ui/react";
-import { Todo } from "../src/atoms/todos";
+import { Todo, StatusType } from "../src/atoms/todos";
+import { useUser, login } from "../lib/auth";
+import { useRouter } from "next/router";
 
 export default function Home(): JSX.Element {
 	const [todos, setTodos] = useRecoilState(todoListState);
 	const [filter, setFilter] = useState("all");
 	const [filteredTodos, setFilteredTodos] = useState<Todo[]>([]);
+	const user = useUser();
+	const router = useRouter();
+
+	useEffect(() => {
+		if (user === null) router.push("/login");
+	}, [user]);
 
 	useEffect(() => {
 		const q = query(collection(db, "todos"));
