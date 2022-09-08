@@ -1,7 +1,3 @@
-//未実装
-//recoil（全部できたらカスタムフック、特にfirebase部分）、auth、createページと編集
-//最後はすっきりさせる。コンポーネントは少し分ける、メンタリング時でも。最初はコンポーネント化気にしない
-import type { NextPage } from "next";
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { useRecoilState } from "recoil";
@@ -28,19 +24,20 @@ import {
 	Flex,
 	Spacer,
 } from "@chakra-ui/react";
-import { Todo, StatusType } from "../src/atoms/todos";
-import { useUser, login } from "../lib/auth";
+import { Todo } from "../src/atoms/todos";
+import { useUser } from "../lib/auth";
 import { useRouter } from "next/router";
 
-export default function Home(): JSX.Element {
+const Home = (): JSX.Element => {
+	const user = useUser();
+	const router = useRouter();
 	const [todos, setTodos] = useRecoilState(todoListState);
 	const [filter, setFilter] = useState("all");
 	const [filteredTodos, setFilteredTodos] = useState<Todo[]>([]);
-	const user = useUser();
-	const router = useRouter();
 
+	//ログイン監視
 	useEffect(() => {
-		if (user === null) router.push("/login");
+		user !== null ? router.push("/") : router.push("/login");
 	}, [user]);
 
 	useEffect(() => {
@@ -192,4 +189,6 @@ export default function Home(): JSX.Element {
 			</VStack>
 		</>
 	);
-}
+};
+
+export default Home;

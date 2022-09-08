@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { useRecoilState } from "recoil";
 import { useRouter } from "next/router";
 import Header from "../../src/components/Header";
 import {
@@ -15,21 +14,13 @@ import {
 	Box,
 	Heading,
 } from "@chakra-ui/react";
-import {
-	collection,
-	doc,
-	getDoc,
-	onSnapshot,
-	setDoc,
-} from "firebase/firestore";
-import { todoListState } from "../../src/atoms/todos";
+import { collection, doc, getDoc, setDoc } from "firebase/firestore";
 import { db } from "../../src/firebase";
 import { NextPage } from "next";
 import { useEffect, useState } from "react";
 import { Todo } from "../../src/atoms/todos";
 
 const Edit: NextPage = () => {
-	const [todos, setTodos] = useRecoilState(todoListState);
 	const router = useRouter();
 	const { id } = router.query;
 	const [todo, setTodo] = useState<Todo | null>(null);
