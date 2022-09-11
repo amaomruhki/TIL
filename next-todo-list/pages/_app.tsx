@@ -1,27 +1,36 @@
 import "../styles/globals.css";
 import type { AppProps } from "next/app";
-import { ChakraProvider } from "@chakra-ui/react";
+import { ChakraProvider, Flex, Spinner, Text, VStack } from "@chakra-ui/react";
 import { RecoilRoot } from "recoil";
 import { useAuth } from "../lib/auth";
 import theme from "../src/theme/theme";
 
 type Props = {
-	children: JSX.Element;
+	children: any;
 };
 
 const Auth = ({ children }: Props): JSX.Element => {
 	const isLoading = useAuth();
-	return isLoading ? <p>Loading...</p> : children;
+	return isLoading ? (
+		<Flex align="center" justify="center" height="100vh">
+			<VStack>
+				<Spinner color="pink.500" />
+				<Text color="pink.500">Loading...</Text>
+			</VStack>
+		</Flex>
+	) : (
+		children
+	);
 };
 
 function MyApp({ Component, pageProps }: AppProps): JSX.Element {
 	return (
 		<RecoilRoot>
-			<Auth>
-				<ChakraProvider theme={theme}>
+			<ChakraProvider theme={theme}>
+				<Auth>
 					<Component {...pageProps} />;
-				</ChakraProvider>
-			</Auth>
+				</Auth>
+			</ChakraProvider>
 		</RecoilRoot>
 	);
 }

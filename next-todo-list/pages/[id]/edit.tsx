@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { useRecoilState } from "recoil";
 import { useRouter } from "next/router";
 import Header from "../../src/components/Header";
 import {
@@ -14,7 +15,14 @@ import {
 	Box,
 	Heading,
 } from "@chakra-ui/react";
-import { collection, doc, getDoc, setDoc } from "firebase/firestore";
+import {
+	collection,
+	doc,
+	getDoc,
+	onSnapshot,
+	setDoc,
+} from "firebase/firestore";
+import { todoListState } from "../../src/atoms/todos";
 import { db } from "../../src/firebase";
 import { NextPage } from "next";
 import { useEffect, useState } from "react";

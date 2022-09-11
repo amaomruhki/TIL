@@ -1,4 +1,5 @@
 import Link from "next/link";
+// import { useSetRecoilState } from "recoil";
 import Header from "../src/components/Header";
 import {
 	Text,
@@ -12,13 +13,24 @@ import {
 	Box,
 	Heading,
 } from "@chakra-ui/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { todoListState } from "../src/atoms/todos";
 import { db } from "../src/firebase";
 import { addDoc, collection } from "firebase/firestore";
+import { useUser, login } from "../lib/auth";
+import { useRouter } from "next/router";
 
-const Create = (): JSX.Element => {
+const Create = () => {
 	const [inputTitle, setInputTitle] = useState("");
 	const [inputDetail, setInputDetail] = useState("");
+	// const setTodoList = useSetRecoilState(todoListState);
+
+	const user = useUser();
+	const router = useRouter();
+
+	useEffect(() => {
+		if (user === null) router.push("/login");
+	}, [user]);
 
 	const addTodo = async (e: React.MouseEvent<HTMLButtonElement>) => {
 		await addDoc(collection(db, "todos"), {

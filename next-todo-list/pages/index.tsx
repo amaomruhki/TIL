@@ -25,20 +25,11 @@ import {
 	Spacer,
 } from "@chakra-ui/react";
 import { Todo } from "../src/atoms/todos";
-import { useUser } from "../lib/auth";
-import { useRouter } from "next/router";
 
-const Home = (): JSX.Element => {
-	const user = useUser();
-	const router = useRouter();
+export default function Home(): JSX.Element {
 	const [todos, setTodos] = useRecoilState(todoListState);
 	const [filter, setFilter] = useState("all");
 	const [filteredTodos, setFilteredTodos] = useState<Todo[]>([]);
-
-	//ログイン監視
-	useEffect(() => {
-		user !== null ? router.push("/") : router.push("/login");
-	}, [user]);
 
 	useEffect(() => {
 		const q = query(collection(db, "todos"));
@@ -189,6 +180,4 @@ const Home = (): JSX.Element => {
 			</VStack>
 		</>
 	);
-};
-
-export default Home;
+}

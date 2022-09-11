@@ -21,7 +21,7 @@ const Login = (): JSX.Element => {
 
 	return (
 		<Flex align="center" justify="center" height="100vh">
-			<Box bg="white" w="sm" p={4} borderRadius="md" shadow="md">
+			<Box w="sm" mx={4} p={4} borderRadius="md" shadow="md" bg="#FFF5F7">
 				<Heading as="h1" size="lg" textAlign="center" color="pink.500">
 					TodoList Login
 				</Heading>

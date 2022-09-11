@@ -8,7 +8,7 @@ import {
 	onAuthStateChanged,
 	GoogleAuthProvider,
 } from "firebase/auth";
-import { app } from "./firebase";
+import { app } from "../src/firebase";
 
 type UserState = User | null;
 

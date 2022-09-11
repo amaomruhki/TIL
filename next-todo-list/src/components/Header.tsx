@@ -1,37 +1,47 @@
 import { Button, Flex, Heading } from "@chakra-ui/react";
 import { CheckCircleIcon } from "@chakra-ui/icons";
+import { useRouter } from "next/router";
 import { logout } from "../../lib/auth";
+import { useUser } from "../../lib/auth";
+import { useEffect } from "react";
 
-const Header = (): JSX.Element => {
+const Header = () => {
+	const user = useUser();
+	const router = useRouter();
+
+	useEffect(() => {
+		if (user === null) router.push("/login");
+	}, [user]);
+
 	const handleLogout = (): void => {
 		logout().catch((error) => console.error(error));
 	};
 
 	return (
-		<Flex bg="pink.500" padding={{ base: 3, md: 5 }} justify="space-between">
-			<Flex
-				as="nav"
-				bg="pink.500"
-				color="white"
-				align="center"
-				justify="flex-start"
-			>
+		<Flex
+			padding={{ base: 3, md: 5 }}
+			bg="pink.500"
+			color="white"
+			justify="space-between"
+		>
+			<Flex justify="flex-start" alignItems="center">
 				<CheckCircleIcon color="white" mr={2} />
 				<Heading as="h1" fontSize="2xl">
 					TodoList
 				</Heading>
 			</Flex>
-			<Button
-				onClick={handleLogout}
-				color="white"
-				borderColor="white"
-				border="1px"
-				bg="pink.500"
-				variant="solid"
-				_hover={{ opacity: 0.8 }}
-			>
-				Logout
-			</Button>
+			<Flex>
+				<Button
+					_hover={{
+						opacity: "0.65",
+					}}
+					variant="outline"
+					onClick={handleLogout}
+					border="2px"
+				>
+					Logout
+				</Button>
+			</Flex>
 		</Flex>
 	);
 };
