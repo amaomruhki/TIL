@@ -4,6 +4,7 @@ import { ChakraProvider, Flex, Spinner, Text, VStack } from "@chakra-ui/react";
 import { RecoilRoot } from "recoil";
 import { useAuth } from "../lib/auth";
 import theme from "../src/theme/theme";
+import Loading from "../src/components/Loading";
 
 type Props = {
 	children: any;
@@ -11,16 +12,7 @@ type Props = {
 
 const Auth = ({ children }: Props): JSX.Element => {
 	const isLoading = useAuth();
-	return isLoading ? (
-		<Flex align="center" justify="center" height="100vh">
-			<VStack>
-				<Spinner color="pink.500" />
-				<Text color="pink.500">Loading...</Text>
-			</VStack>
-		</Flex>
-	) : (
-		children
-	);
+	return isLoading ? <Loading /> : children;
 };
 
 function MyApp({ Component, pageProps }: AppProps): JSX.Element {

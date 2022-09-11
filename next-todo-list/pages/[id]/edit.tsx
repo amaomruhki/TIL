@@ -1,11 +1,10 @@
 import Link from "next/link";
-import { useRecoilState } from "recoil";
 import { useRouter } from "next/router";
 import Header from "../../src/components/Header";
+import Loading from "../../src/components/Loading";
 import {
 	Text,
 	VStack,
-	Select,
 	Button,
 	Input,
 	Textarea,
@@ -34,9 +33,9 @@ const Edit: NextPage = () => {
 	const [todo, setTodo] = useState<Todo | null>(null);
 
 	useEffect(() => {
-		if (id !== undefined) {
+		if (id !== undefined && typeof id === "string") {
 			(async () => {
-				const docSnap = await getDoc(doc(db, "todos", id as string));
+				const docSnap = await getDoc(doc(db, "todos", id));
 				docSnap.exists() && setTodo({ ...(docSnap.data() as Todo) });
 			})();
 		}
@@ -44,9 +43,9 @@ const Edit: NextPage = () => {
 
 	const todosRef = collection(db, "todos");
 	const editTodo = async () => {
-		if (todo != null) {
+		if (todo != null && typeof id === "string") {
 			await setDoc(
-				doc(todosRef, id as string),
+				doc(todosRef, id),
 				{
 					title: todo.title,
 					detail: todo.detail,
@@ -128,7 +127,7 @@ const Edit: NextPage = () => {
 			</>
 		);
 	} else {
-		return <h1>no todo</h1>;
+		return <Loading />;
 	}
 };
 
