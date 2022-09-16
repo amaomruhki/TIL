@@ -1,6 +1,6 @@
 import "../styles/globals.css";
 import type { AppProps } from "next/app";
-import { ChakraProvider, Flex, Spinner, Text, VStack } from "@chakra-ui/react";
+import { ChakraProvider } from "@chakra-ui/react";
 import { RecoilRoot } from "recoil";
 import { useAuth } from "../lib/auth";
 import theme from "../src/theme/theme";
