@@ -6,11 +6,9 @@ import { useAuth } from "../lib/auth";
 import theme from "../src/theme/theme";
 import Loading from "../src/components/Loading";
 
-type Props = {
-	children: any;
-};
+type Props = { children: any };
 
-const Auth = ({ children }: Props): JSX.Element => {
+const Auth = ({ children: Props }): JSX.Element => {
 	const isLoading = useAuth();
 	return isLoading ? <Loading /> : children;
 };

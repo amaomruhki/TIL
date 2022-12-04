@@ -84,6 +84,18 @@ export default function Home(): JSX.Element {
 		await deleteDoc(doc(db, `todos/${todoId}`));
 	};
 
+	// お手本
+	// 	const STATUSOPTIONS = [
+	// 		{ text: "- - - - - - -", value: "NONE" },
+	// 		{ text: "NOT STARTED", value: "NOT STARTED" },
+	// 		{ text: "DOING", value: "DOING" },
+	// 		{ text: "DONE", value: "DONE" },
+	// 	];
+
+	// 	<Select value={filteringStatus} onChange={filteringStatusChange}>
+	// 	{STATUSOPTIONS.map(({value, text}) => <MenuItem key={value} value={value}>{text}</MenuItem>)}
+	// </Select>
+
 	return (
 		<>
 			<Header />
